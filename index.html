@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de publicaciones</title>
+    <style>
+        body { font-family: Arial; max-width: 640px; margin: 2rem auto; }
+        form { display: grid; gap: .5rem; margin-bottom: 1rem; }
+        .post { border: 1px solid #ddd; border-radius: 6px;
+                padding: 0 1rem; margin: .5rem 0; }
+        .post h3 { cursor: pointer; }
+        .post h3:hover { text-decoration: underline; }
+        .nuevo { border-color: seagreen; background: #f0fff4; }
+        .error { color: crimson; }
+
+        /* Actividad 2 */
+        .filtros { display: grid; gap: .5rem; margin-bottom: 1rem; }
+        #conteo { color: #555; font-size: .9rem; }
+        .comentarios { margin: 0 0 1rem; }
+        .comentario { border-left: 3px solid #999; background: #fafafa;
+                      padding: .25rem .75rem; margin: .5rem 0;
+                      font-size: .9rem; }
+        .comentario.nuevo { border-left-color: seagreen; background: #f0fff4; }
+        .comentario small { color: #666; }
+
+        /* Actividad 3: validación */
+        .msg-error { color: crimson; font-size: .85rem; min-height: 1em; }
+        .invalido { border: 1px solid crimson; outline-color: crimson; }
+    </style>
+</head>
+<body>
+    <h1>Gestor de publicaciones</h1>
+
+    <h2>Listar (GET)</h2>
+    <form id="form-buscar">
+        <label>Usuario (1 a 10)
+            <input type="number" id="input-usuario"
+                   min="1" max="10" value="1">
+        </label>
+        <label>Publicaciones a traer (_limit)
+            <select id="select-limite">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="20">20</option>
+            </select>
+        </label>
+        <button type="submit">Listar publicaciones</button>
+    </form>
+
+    <div class="filtros">
+        <label>Buscar por título
+            <input type="search" id="input-filtro"
+                   placeholder="Escriba parte del título...">
+        </label>
+        <span id="conteo"></span>
+    </div>
+
+    <h2>Nueva publicación (POST)</h2>
+    <!-- novalidate: desactiva los mensajes del navegador para usar los nuestros.
+         Se quitó "required" de los campos: la validación la hace app.js -->
+    <form id="form-crear" novalidate>
+        <input type="text" id="input-titulo" placeholder="Título (mín. 5 caracteres)">
+        <span class="msg-error" id="error-titulo"></span>
+        <textarea id="input-cuerpo" rows="3" placeholder="Contenido"></textarea>
+        <span class="msg-error" id="error-cuerpo"></span>
+        <button type="submit" id="btn-crear">Publicar</button>
+    </form>
+
+    <!-- Actividad 3: comentar una publicación -->
+    <h2>Comentar una publicación (POST)</h2>
+    <form id="form-comentar" novalidate>
+        <!-- El atributo name de cada campo es la clave que usa FormData -->
+        <label>ID de la publicación (postId)
+            <input type="number" name="postId" id="input-post-id"
+                   min="1" value="1">
+        </label>
+        <span class="msg-error" id="error-post-id"></span>
+
+        <input type="text" name="name" id="input-nombre"
+               placeholder="Nombre del comentario">
+        <span class="msg-error" id="error-nombre"></span>
+
+        <input type="text" name="email" id="input-email"
+               placeholder="Correo electrónico">
+        <span class="msg-error" id="error-email"></span>
+
+        <textarea name="body" id="input-comentario" rows="3"
+                  placeholder="Comentario"></textarea>
+        <span class="msg-error" id="error-comentario"></span>
+
+        <button type="submit" id="btn-comentar">Comentar</button>
+    </form>
+
+    <p id="estado"></p>
+    <section id="lista"></section>
+
+    <script src="app.js"></script>
+</body>
+</html>
